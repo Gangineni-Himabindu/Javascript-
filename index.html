@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Promises Example</title>
+</head>
+<body>
+    <h1>Fetch User Data</h1>
+    <button onclick="getUserData()">Fetch User</button>
+    
+    <div id="result"></div>
+
+    <script>
+        // Simulate an API call that takes time to respond
+        function fetchUserData(userId) {
+            return new Promise((resolve, reject) => {
+                console.log("Fetching user data...");
+                
+                setTimeout(() => {
+                    // Simulate a successful API call with user data
+                    if (userId === 1) {
+                        resolve({ id: 1, name: "John Doe", age: 30 });
+                    } else {
+                        reject("User not found.");
+                    }
+                }, 2000); // Simulate a 2-second delay
+            });
+        }
+
+        // Function to handle the fetching and display of data
+        function getUserData() {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "Loading...";
+
+            fetchUserData(1) // Change user ID here to test both success and failure
+                .then(user => {
+                    resultDiv.innerHTML = `<p>User Data:</p>
+                                           <ul>
+                                               <li>ID: ${user.id}</li>
+                                               <li>Name: ${user.name}</li>
+                                               <li>Age: ${user.age}</li>
+                                           </ul>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<p style="color: red;">Error: ${error}</p>`;
+                })
+                .finally(() => {
+                    console.log("Fetch operation completed.");
+                });
+        }
+    </script>
+</body>
+</html>
